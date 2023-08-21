@@ -30,7 +30,7 @@ class MealItem extends StatelessWidget {
       elevation: 4,
       child: InkWell(
         onTap: () {
-          onSelectMeal;
+          onSelectMeal(meal);
         },
         child: Stack(
           children: [
