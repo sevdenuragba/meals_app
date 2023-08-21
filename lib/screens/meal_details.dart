@@ -58,7 +58,7 @@ class MealDetailsScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 12,
-                  vertical: 16,
+                  vertical: 8,
                 ),
                 child: Text(
                   steps,
