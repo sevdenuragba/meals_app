@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:meals/models/meal.dart';
 import 'package:meals/screens/categories.dart';
 import 'package:meals/screens/filters.dart';
@@ -20,10 +21,11 @@ class _TabsScreenState extends State<TabsScreen> {
 
   void _showInfoMessage(String message) {
     ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-      duration: const Duration(seconds: 3),
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
   }
 
   void _toggleMealFavoriteStatus(Meal meal) {
@@ -32,12 +34,12 @@ class _TabsScreenState extends State<TabsScreen> {
     if (isExisting) {
       setState(() {
         _favoriteMeals.remove(meal);
-        _showInfoMessage('Meal has been removed from favorites.');
       });
+      _showInfoMessage('Meal is no longer a favorite.');
     } else {
       setState(() {
         _favoriteMeals.add(meal);
-        _showInfoMessage('Meal has been added to favorites.');
+        _showInfoMessage('Marked as a favorite!');
       });
     }
   }
@@ -49,35 +51,37 @@ class _TabsScreenState extends State<TabsScreen> {
   }
 
   void _setScreen(String identifier) {
+    Navigator.of(context).pop();
     if (identifier == 'filters') {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => const FiltersScreen(),
+          builder: (ctx) => const FiltersScreen(),
         ),
       );
-    } else {
-      Navigator.of(context).pop();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget activePage =
-        CategoriesScreen(onToggleFavorite: _toggleMealFavoriteStatus);
+    Widget activePage = CategoriesScreen(
+      onToggleFavorite: _toggleMealFavoriteStatus,
+    );
     var activePageTitle = 'Categories';
 
     if (_selectedPageIndex == 1) {
       activePage = MealsScreen(
-          meals: _favoriteMeals, onToggleFavorite: _toggleMealFavoriteStatus);
+        meals: _favoriteMeals,
+        onToggleFavorite: _toggleMealFavoriteStatus,
+      );
       activePageTitle = 'Your Favorites';
     }
 
     return Scaffold(
-      drawer: MainDrawer(onSelectScreen: _setScreen),
       appBar: AppBar(
-        title: Text(
-          activePageTitle,
-        ),
+        title: Text(activePageTitle),
+      ),
+      drawer: MainDrawer(
+        onSelectScreen: _setScreen,
       ),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
@@ -85,8 +89,13 @@ class _TabsScreenState extends State<TabsScreen> {
         currentIndex: _selectedPageIndex,
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.set_meal), label: 'Categories'),
-          BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Favorites'),
+            icon: Icon(Icons.set_meal),
+            label: 'Categories',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star),
+            label: 'Favorites',
+          ),
         ],
       ),
     );
