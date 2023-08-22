@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:meals/screens/filters.dart';
 
 class MainDrawer extends StatelessWidget {
-  const MainDrawer({super.key});
+  const MainDrawer({super.key, required this.onSelectScreen});
+
+  final void Function(String identifier) onSelectScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,7 @@ class MainDrawer extends StatelessWidget {
                 const SizedBox(
                   width: 14,
                 ),
-                Text("Cook till you're dead!",
+                Text("Cook 'till you're dead!",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           color: Theme.of(context).colorScheme.primary,
                         )),
@@ -34,12 +37,33 @@ class MainDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-              title: Text(
-            'Meals',
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-          )),
+            leading: Icon(Icons.restaurant,
+                size: 26, color: Theme.of(context).colorScheme.onBackground),
+            title: Text(
+              'Meals',
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    fontSize: 24,
+                  ),
+            ),
+            onTap: () {
+              onSelectScreen('');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.filter_alt,
+                size: 26, color: Theme.of(context).colorScheme.onBackground),
+            title: Text(
+              'Filters',
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    fontSize: 24,
+                  ),
+            ),
+            onTap: () {
+              FiltersScreen;
+            },
+          ),
         ],
       ),
     );
